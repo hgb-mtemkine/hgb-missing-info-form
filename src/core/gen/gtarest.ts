@@ -518,7 +518,11 @@ export enum ItineraryState {
   Suspense_Booking_Fail = 106,
   Suspense_Ambiguous_Request = 150,
   Suspense_User_Not_Found = 151,
+  Suspense_Draft_Declined_Qa_Invalid_Request = 152,
+  Suspense_Draft_Declined_Qa_Content_Scheduler_Error = 162,
   Suspense_Missing_Info_Second_Pass_Fail = 201,
+  Suspense_Draft_Declined_Qa_Second_Pass_Fail = 202,
+  Suspense_Solution_Declined_Policy_Violation = 214,
 }
 
 export enum JMeterUserType {
@@ -694,6 +698,14 @@ export enum MessageId {
   ErrorInvalidWorkflow = 300000,
 }
 
+export enum MissingInfoDataType {
+  Destination = 0,
+  DateTime = 1,
+  Date = 2,
+  Time = 3,
+  VerifyHotel = 4,
+}
+
 export enum NaturalLanguage {
   en = 0,
   fr = 1,
@@ -721,6 +733,11 @@ export enum NodeType {
   activity = 9,
   preferences = 10,
   instruction = 11,
+}
+
+export enum Order {
+  Ascending = 0,
+  Descending = 1,
 }
 
 export enum Participant {
@@ -1183,6 +1200,7 @@ export class AddUserProfileRequest {
   accepthgbmarketing: boolean;
   acceptthirdpartymarketing: boolean;
   address: string;
+  agencycode: string;
   carddetail: CardToken;
   city: string;
   country: string;
@@ -1196,6 +1214,7 @@ export class AddUserProfileRequest {
   middlename: string;
   password: string;
   postalcode: string;
+  roleid: RoleType;
   state: string;
   token: string;
   username: string;
@@ -1207,6 +1226,7 @@ export class AddUserProfileRequest {
       externalloginsource: isNaN(init.externalloginsource) ? ExternalLoginSource[init.externalloginsource] : init.externalloginsource,
       gender: isNaN(init.gender) ? Gender[init.gender] : init.gender,
       marketingtravelertype: isNaN(init.marketingtravelertype) ? MarketingTravelerType[init.marketingtravelertype] : init.marketingtravelertype,
+      roleid: isNaN(init.roleid) ? RoleType[init.roleid] : init.roleid,
       usertypeid: isNaN(init.usertypeid) ? UserTypeEnum[init.usertypeid] : init.usertypeid,
     });
   }
@@ -1310,6 +1330,22 @@ export class AgentDeskEmailRequest {
       batch: isNaN(init.batch) ? TestBatch[init.batch] : init.batch,
       complexity: isNaN(init.complexity) ? Complexity[init.complexity] : init.complexity,
       source: isNaN(init.source) ? QuerySource[init.source] : init.source,
+    });
+  }
+}
+
+/**
+ * Source class: GTA.Common.Models.AgentDesk.AgentDeskMissingInfoRequest
+ */
+export class AgentDeskMissingInfoRequest {
+  nodetype: RankerType;
+  question: string;
+  questiontype: MissingInfoDataType[];
+
+  constructor(init?: Partial<AgentDeskMissingInfoRequest>) {
+    Object.assign(this, init, {
+      nodetype: isNaN(init.nodetype) ? RankerType[init.nodetype] : init.nodetype,
+      questiontype: _.map(init.questiontype, x => isNaN(x) ? MissingInfoDataType[x] : x),
     });
   }
 }
@@ -2785,12 +2821,18 @@ export class GeoCoordinate {
  * Source class: GTA.Common.Models.AgentDesk.GetPrioritizedTransactionsReq
  */
 export class GetPrioritizedTransactionsReq {
-  count: number;
+  channels: AgentDeskChannel[];
+  numrecords: number;
+  receiveddateorder: Order;
   states: ItineraryState[];
+  transactionstate: TransactionState[];
 
   constructor(init?: Partial<GetPrioritizedTransactionsReq>) {
     Object.assign(this, init, {
+      channels: _.map(init.channels, x => isNaN(x) ? AgentDeskChannel[x] : x),
+      receiveddateorder: isNaN(init.receiveddateorder) ? Order[init.receiveddateorder] : init.receiveddateorder,
       states: _.map(init.states, x => isNaN(x) ? ItineraryState[x] : x),
+      transactionstate: _.map(init.transactionstate, x => isNaN(x) ? TransactionState[x] : x),
     });
   }
 }
@@ -3768,17 +3810,23 @@ export class ItineraryItemInvoiceRequest {
 export class ItineraryReviewDto {
   itinerary: ResponseDto;
   itineraryid: string;
+  itinerarystate: ItineraryState;
+  missinginfosent: boolean;
   network: VisualizationResponse;
+  networkverified: boolean;
   notes: string;
   originalquery: string;
   parserspeak: string;
   prescanresponse: PreScanReviewChunks;
+  understandingitems: UnderstandingItem[];
 
   constructor(init?: Partial<ItineraryReviewDto>) {
     Object.assign(this, init, {
       itinerary: init.itinerary ? new ResponseDto(init.itinerary) : null,
+      itinerarystate: isNaN(init.itinerarystate) ? ItineraryState[init.itinerarystate] : init.itinerarystate,
       network: init.network ? new VisualizationResponse(init.network) : null,
       prescanresponse: init.prescanresponse ? new PreScanReviewChunks(init.prescanresponse) : null,
+      understandingitems: _.map(init.understandingitems, x => x ? new UnderstandingItem(x) : null),
     });
   }
 }
@@ -3830,6 +3878,19 @@ export class KeyValue {
   position: number;
 
   constructor(init?: Partial<KeyValue>) {
+    Object.assign(this, init, {
+    });
+  }
+}
+
+/**
+ * Source class: System.Collections.Generic.KeyValuePair`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
+ */
+export class KeyValuePair_of_string_and_List_of_string {
+  key: string;
+  value: string[];
+
+  constructor(init?: Partial<KeyValuePair_of_string_and_List_of_string>) {
     Object.assign(this, init, {
     });
   }
@@ -4188,6 +4249,7 @@ export class ParserSpeakNodeFlightRFM {
   from: string;
   isnonstop: boolean;
   noflight: boolean;
+  requiredproperties: string[];
   time: string;
   to: string;
   via: string;
@@ -4209,6 +4271,7 @@ export class ParserSpeakNodeHotelRFM {
   isverified: boolean;
   near: string;
   rating: string;
+  requiredproperties: string[];
   where: string;
 
   constructor(init?: Partial<ParserSpeakNodeHotelRFM>) {
@@ -5202,6 +5265,21 @@ export class TripSummary {
 }
 
 /**
+ * Source class: GTARESTServices.Web.Api.Models.AgentDesk.UnderstandingItem
+ */
+export class UnderstandingItem {
+  attributes: KeyValuePair_of_string_and_List_of_string[];
+  type: RankerType;
+
+  constructor(init?: Partial<UnderstandingItem>) {
+    Object.assign(this, init, {
+      attributes: _.map(init.attributes, x => x ? new KeyValuePair_of_string_and_List_of_string(x) : null),
+      type: isNaN(init.type) ? RankerType[init.type] : init.type,
+    });
+  }
+}
+
+/**
  * Source class: GTARESTServices.Web.Api.Models.Travel.UpdateAvailabilityFlightResponse
  */
 export class UpdateAvailabilityFlightResponse {
@@ -5276,6 +5354,7 @@ export class UpdateAvailablilityResponse {
 export class UpdateItineraryAgentRequest {
   agentnotes: string;
   complexity: Complexity;
+  isbookingrequired: boolean;
   ispreapproved: boolean;
   itineraryid: string;
   newstate: ItineraryState;
@@ -8972,6 +9051,35 @@ export class GTARestService {
   
   /**
    * 
+   * URL: GET REST/Itinerary/AgentDesk/{itineraryId}/reviewAgent
+   * ID: GET-REST-Itinerary-AgentDesk-itineraryId-reviewAgent
+   * HttpMethod: get
+   * UrlFull: REST/Itinerary/AgentDesk/{itineraryId}/reviewAgent
+   * UrlVar:  Itinerary/AgentDesk/${itineraryId}/reviewAgent
+   * ResponseType: ItineraryReviewDto
+   * UriParams:
+   * - itineraryId:string:required
+   * BodyParams:
+   */
+  public Itinerary_GetItineraryForReviewAgent(itineraryId: string)
+    : Promise<ItineraryReviewDto>
+  {
+    let options = {
+      headers: this.headers,
+      params: new HttpParamsBuilder()
+        .set('itineraryId', itineraryId)
+        .toHttpParams()
+    };
+    return this.http
+      .get<ItineraryReviewDto>(`${this.apiUrlPrefix}/Itinerary/AgentDesk/${itineraryId}/reviewAgent`, options)
+      .pipe(take(1))
+      .toPromise()
+      .then(response => response ? new ItineraryReviewDto(response) : null)
+      .catch(error => this.handleError(error));
+  }
+  
+  /**
+   * 
    * URL: GET REST/Itinerary/AgentDesk/GetItineraryFromExternalId?externalId={externalId}
    * ID: GET-REST-Itinerary-AgentDesk-GetItineraryFromExternalId_externalId
    * HttpMethod: get
@@ -9024,6 +9132,35 @@ export class GTARestService {
       .get<number>(`${this.apiUrlPrefix}/Itinerary/AgentDesk/GetItineraryTripsIndex`, options)
       .pipe(take(1))
       .toPromise()
+      .catch(error => this.handleError(error));
+  }
+  
+  /**
+   * 
+   * URL: GET REST/Itinerary/AgentDesk/{itineraryId}/GetMissingInfo
+   * ID: GET-REST-Itinerary-AgentDesk-itineraryId-GetMissingInfo
+   * HttpMethod: get
+   * UrlFull: REST/Itinerary/AgentDesk/{itineraryId}/GetMissingInfo
+   * UrlVar:  Itinerary/AgentDesk/${itineraryId}/GetMissingInfo
+   * ResponseType: AgentDeskMissingInfoRequest[]
+   * UriParams:
+   * - itineraryId:string:required
+   * BodyParams:
+   */
+  public Itinerary_GetMissingInfoQuestions(itineraryId: string)
+    : Promise<AgentDeskMissingInfoRequest[]>
+  {
+    let options = {
+      headers: this.headers,
+      params: new HttpParamsBuilder()
+        .set('itineraryId', itineraryId)
+        .toHttpParams()
+    };
+    return this.http
+      .get<AgentDeskMissingInfoRequest[]>(`${this.apiUrlPrefix}/Itinerary/AgentDesk/${itineraryId}/GetMissingInfo`, options)
+      .pipe(take(1))
+      .toPromise()
+      .then(response => _.map(response, x => x ? new AgentDeskMissingInfoRequest(x) : null))
       .catch(error => this.handleError(error));
   }
   
@@ -9849,6 +9986,34 @@ export class GTARestService {
   
   /**
    * 
+   * URL: GET REST/Itinerary/AgentDesk/SendBookingConfirmationTest?itineraryId={itineraryId}
+   * ID: GET-REST-Itinerary-AgentDesk-SendBookingConfirmationTest_itineraryId
+   * HttpMethod: get
+   * UrlFull: REST/Itinerary/AgentDesk/SendBookingConfirmationTest?itineraryId={itineraryId}
+   * UrlVar:  Itinerary/AgentDesk/SendBookingConfirmationTest
+   * ResponseType: void
+   * UriParams:
+   * - itineraryId:string:required
+   * BodyParams:
+   */
+  public Itinerary_SendBookingConfirmationTest(itineraryId: string)
+    : Promise<void>
+  {
+    let options = {
+      headers: this.headers,
+      params: new HttpParamsBuilder()
+        .set('itineraryId', itineraryId)
+        .toHttpParams()
+    };
+    return this.http
+      .get<void>(`${this.apiUrlPrefix}/Itinerary/AgentDesk/SendBookingConfirmationTest`, options)
+      .pipe(take(1))
+      .toPromise()
+      .catch(error => this.handleError(error));
+  }
+  
+  /**
+   * 
    * URL: PUT REST/Itinerary/Review/{reviewId}/Process
    * ID: PUT-REST-Itinerary-Review-reviewId-Process
    * HttpMethod: put
@@ -10110,6 +10275,34 @@ export class GTARestService {
     };
     return this.http
       .put<void>(`${this.apiUrlPrefix}/Itinerary/AgentDesk/UpdateTransaction/${transactionId}`, null, options)
+      .pipe(take(1))
+      .toPromise()
+      .catch(error => this.handleError(error));
+  }
+  
+  /**
+   * 
+   * URL: POST REST/Itinerary/AgentDesk/{itineraryId}/VerifyNetwork
+   * ID: POST-REST-Itinerary-AgentDesk-itineraryId-VerifyNetwork
+   * HttpMethod: post
+   * UrlFull: REST/Itinerary/AgentDesk/{itineraryId}/VerifyNetwork
+   * UrlVar:  Itinerary/AgentDesk/${itineraryId}/VerifyNetwork
+   * ResponseType: void
+   * UriParams:
+   * - itineraryId:string:required
+   * BodyParams:
+   */
+  public Itinerary_VerifyNetwork(itineraryId: string)
+    : Promise<void>
+  {
+    let options = {
+      headers: this.headers,
+      params: new HttpParamsBuilder()
+        .set('itineraryId', itineraryId)
+        .toHttpParams()
+    };
+    return this.http
+      .post<void>(`${this.apiUrlPrefix}/Itinerary/AgentDesk/${itineraryId}/VerifyNetwork`, null, options)
       .pipe(take(1))
       .toPromise()
       .catch(error => this.handleError(error));
@@ -10457,6 +10650,36 @@ export class GTARestService {
     };
     return this.http
       .post<void>(`${this.apiUrlPrefix}/PushNotifications/UpdateBadgeValue/${count}`, null, options)
+      .pipe(take(1))
+      .toPromise()
+      .catch(error => this.handleError(error));
+  }
+  
+  /**
+   * 
+   * URL: GET REST/Report/PeriodReport?start={start}&end={end}
+   * ID: GET-REST-Report-PeriodReport_start_end
+   * HttpMethod: get
+   * UrlFull: REST/Report/PeriodReport?start={start}&end={end}
+   * UrlVar:  Report/PeriodReport
+   * ResponseType: string
+   * UriParams:
+   * - start:Date:required
+   * - end:Date:required
+   * BodyParams:
+   */
+  public Report_GetPeriodReportCsvString(start: Date, end: Date)
+    : Promise<string>
+  {
+    let options = {
+      headers: this.headers,
+      params: new HttpParamsBuilder()
+        .setAsStr('start', start)
+        .setAsStr('end', end)
+        .toHttpParams()
+    };
+    return this.http
+      .get<string>(`${this.apiUrlPrefix}/Report/PeriodReport`, options)
       .pipe(take(1))
       .toPromise()
       .catch(error => this.handleError(error));
@@ -11241,16 +11464,16 @@ export class GTARestService {
    * HttpMethod: get
    * UrlFull: Status/AllServices
    * UrlVar:  Status/AllServices
-   * ResponseType: { [id: string]: boolean; }
+   * ResponseType: { [id: string]: string; }
    * UriParams:
    * BodyParams:
    */
   public Status_GetAllService()
-    : Promise<{ [id: string]: boolean; }>
+    : Promise<{ [id: string]: string; }>
   {
     let options = { headers: this.headers };
     return this.http
-      .get<{ [id: string]: boolean; }>(`${this.apiUrlPrefix}/Status/AllServices`, options)
+      .get<{ [id: string]: string; }>(`${this.apiUrlPrefix}/Status/AllServices`, options)
       .pipe(take(1))
       .toPromise()
       .catch(error => this.handleError(error));
@@ -11276,6 +11499,28 @@ export class GTARestService {
       .pipe(take(1))
       .toPromise()
       .then(response => response ? new StatusResponses(response) : null)
+      .catch(error => this.handleError(error));
+  }
+  
+  /**
+   * 
+   * URL: GET Status/SystemResources
+   * ID: GET-Status-SystemResources
+   * HttpMethod: get
+   * UrlFull: Status/SystemResources
+   * UrlVar:  Status/SystemResources
+   * ResponseType: { [id: string]: string; }
+   * UriParams:
+   * BodyParams:
+   */
+  public Status_SystemResources()
+    : Promise<{ [id: string]: string; }>
+  {
+    let options = { headers: this.headers };
+    return this.http
+      .get<{ [id: string]: string; }>(`${this.apiUrlPrefix}/Status/SystemResources`, options)
+      .pipe(take(1))
+      .toPromise()
       .catch(error => this.handleError(error));
   }
   

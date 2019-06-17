@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { iVmService, IVmService } from 'core/iVM/i-vm-service';
-import { MissingInfoQuestionsVM } from 'core/models/missing-info-vm';
+import { MissingInfoVM } from 'core/models/missing-info-vm';
 
 @Component({
   selector: 'hgb-root',
@@ -8,8 +8,8 @@ import { MissingInfoQuestionsVM } from 'core/models/missing-info-vm';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit {
-  
-  vmMissingInfo: MissingInfoQuestionsVM;
+
+  vmMissingInfo: MissingInfoVM;
 
   constructor(
     @Inject(iVmService)
@@ -17,7 +17,8 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.vmService.loadQuestions('TODO:id').then(vm => {
+    // TODO: cdc42361: id from router
+    this.vmService.loadQuestions('dd56f5ca-edab-441e-8377-6ea440016006').then(vm => {
 
       this.vmMissingInfo = vm;
 
