@@ -28,6 +28,7 @@
     "@hgb/core": "1.0.14",
     "@hgb/material": "1.0.14",
     "lodash": "^4.17.4",
+    "moment": "^2.24.0",
     "material-design-icons": "^3.0.1"
   },
   "devDependencies": {
