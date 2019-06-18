@@ -1,0 +1,25 @@
+<div class="category" *ngFor="let cat of vm.categories">
+  <p><img [src]="cat.type | imageSrcNodeType" class="node-icon">{{ cat.text }}</p>
+
+  <div class="question" *ngFor="let qqq of cat.questions">
+    <ng-container *ngIf="qqq.type == ControlType.Text">
+      <input type="text" />
+      <span> {{ qqq.text }}</span>
+    </ng-container>
+    <ng-container *ngIf="qqq.type == ControlType.Date">
+      <input type="date" />
+      <span> {{ qqq.text }}</span>
+    </ng-container>
+    <ng-container *ngIf="qqq.type == ControlType.Time">
+      <input type="time" />
+      <span> {{ qqq.text }}</span>
+    </ng-container>
+    <ng-container *ngIf="qqq.type == ControlType.Checkbox">
+      <input type="checkbox" />
+      <span> {{ qqq.text }}</span>
+    </ng-container>
+    <!-- <pre>{{ qqq | json }}</pre> -->
+  </div>
+
+  <!-- <pre>{{ cat | json }}</pre> -->
+</div>

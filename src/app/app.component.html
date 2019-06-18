@@ -1,8 +1,11 @@
-<div class="hello-page">
+<div class="hello-page" *ngIf="vmMissingInfo">
   <div class="content-container">
     <div class="hello-content">
-      <pre>{{ vmMissingInfo | json }}</pre>
-      <!-- <router-outlet></router-outlet> -->
+      <h5>We have some questions pertaining to your itinerary.</h5>
+      
+      <hgb-missing-info-form [vm]="vmMissingInfo"></hgb-missing-info-form>
+     
+      <!-- <pre>{{ vmMissingInfo | json }}</pre> -->
     </div>
   </div>
   <div class="logo" *ngIf="ENV.logo != FeLogoType.None">
