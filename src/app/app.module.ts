@@ -17,6 +17,7 @@ import { MissingInfoFormComponent, ImageSrcNodeTypePipe } from './missing-info-f
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    Mat.MatButtonModule,
     Mat.MatInputModule,
     Mat.MatCheckboxModule,
 

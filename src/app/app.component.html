@@ -6,10 +6,16 @@
       <hgb-missing-info-form [vm]="vmMissingInfo"></hgb-missing-info-form>
      
       <!-- <pre>{{ vmMissingInfo | json }}</pre> -->
+      <div class="submit-con">
+        
+      </div>
     </div>
   </div>
-  <div class="logo" *ngIf="ENV.logo != FeLogoType.None">
-    <img src="assets/images/hellogbye-logo-blue.svg" height="35" *ngIf="ENV.logo == FeLogoType.HelloGbye"/>
-    <img src="assets/images/gbt-logo.svg" height="30" *ngIf="ENV.logo == FeLogoType.AmexGbt"/>
-  </div>
+  <footer>
+    <ng-container *ngIf="ENV.logo != FeLogoType.None">
+      <img class="logo" src="assets/images/hellogbye-logo-blue.svg" height="35" *ngIf="ENV.logo == FeLogoType.HelloGbye"/>
+      <img class="logo" src="assets/images/gbt-logo.svg" height="30" *ngIf="ENV.logo == FeLogoType.AmexGbt"/>
+    </ng-container>
+    <button class="hgb-wire-btn blue submit-btn" mat-button (click)="submit()">Submit</button>
+  </footer>
 </div>

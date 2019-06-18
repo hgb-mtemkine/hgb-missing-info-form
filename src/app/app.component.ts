@@ -32,4 +32,8 @@ export class AppComponent implements OnInit {
       target && target.remove();
     });
   }
+
+  submit() {
+    console.log(`TODO: submit`);
+  }
 }
