@@ -1,3 +1,5 @@
+import { FeLogoType } from 'core/models/ui-models';
+
 export const environment = {
   production: false,
   // apiUrl: "http://localhost:19958/rest",
@@ -8,5 +10,6 @@ export const environment = {
   //apiUrl: "http://apione.amexgbt.hellogbye.com/api/rest",
   apiUrl: "http://api.development.hellogbye.com/dev/Rest",
   useMock: 1,
+  logo: FeLogoType.HelloGbye,
 };
 

@@ -1,1 +1,12 @@
-<pre>{{ vmMissingInfo | json }}</pre>
+<div class="hello-page">
+  <div class="content-container">
+    <div class="hello-content">
+      <pre>{{ vmMissingInfo | json }}</pre>
+      <!-- <router-outlet></router-outlet> -->
+    </div>
+  </div>
+  <div class="logo" *ngIf="ENV.logo != FeLogoType.None">
+    <img src="assets/images/hellogbye-logo-blue.svg" height="35" *ngIf="ENV.logo == FeLogoType.HelloGbye"/>
+    <img src="assets/images/gbt-logo.svg" height="30" *ngIf="ENV.logo == FeLogoType.AmexGbt"/>
+  </div>
+</div>

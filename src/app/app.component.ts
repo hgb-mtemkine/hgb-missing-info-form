@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { iVmService, IVmService } from 'core/iVM/i-vm-service';
 import { MissingInfoVM } from 'core/models/missing-info-vm';
+import { environment } from 'environments/environment';
+import { FeLogoType } from 'core/models/ui-models';
 
 @Component({
   selector: 'hgb-root',
@@ -9,6 +11,9 @@ import { MissingInfoVM } from 'core/models/missing-info-vm';
 })
 export class AppComponent implements OnInit {
 
+  readonly ENV = environment;
+  readonly FeLogoType = FeLogoType;
+  
   vmMissingInfo: MissingInfoVM;
 
   constructor(
