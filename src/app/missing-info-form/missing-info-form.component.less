@@ -1,7 +1,30 @@
 :host {
 
-  .node-icon {
-    width: 40px;
-    height: 30px;
+  
+
+  .category {
+    margin: -15px;
+    padding: 15px;
+    margin-bottom: 15px;
+
+    &:not(:first-child) {
+      border-top: 1px solid #eee;
+    }
+
+    .cat-header {
+      display: flex;
+      
+      img.node-icon {
+        width: 40px;
+        height: 30px;
+      }
+
+      span {
+        flex-grow: 1;
+      }
+    }
+    .question {
+      margin-left: 40px;
+    }
   }
 }

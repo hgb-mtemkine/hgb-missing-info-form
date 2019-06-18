@@ -27,6 +27,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/@hgb/material/hgb-theme.scss",
               "src/styles.less"
             ],
             "scripts": []

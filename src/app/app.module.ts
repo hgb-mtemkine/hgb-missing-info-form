@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import * as Mat from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { VmServiceModule } from 'core/iVM/-vm-service-module';
@@ -14,6 +16,10 @@ import { MissingInfoFormComponent, ImageSrcNodeTypePipe } from './missing-info-f
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    Mat.MatInputModule,
+    Mat.MatCheckboxModule,
+
     VmServiceModule.forRoot(environment.apiUrl),
   ],
   providers: [],
