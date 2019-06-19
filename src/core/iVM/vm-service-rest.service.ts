@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import * as GTARest from 'core/gen/gtarest';
-import { MissingInfoVM } from 'core/models/missing-info-vm';
+import { MissingInfoVM, MissingInfoRFM } from 'core/models/missing-info-vm';
 
 import { IVmService } from './i-vm-service';
 import { VmMappingService } from './vm-mapping.service';
@@ -14,11 +14,15 @@ export class VmService_Rest implements IVmService {
   constructor(
     private gtaRest: GTARest.GTARestService,
     private vmMappingService: VmMappingService,
-    ) { }
+  ) { }
 
   loadQuestions(id: string): Promise<MissingInfoVM> {
     return this.gtaRest
       .Itinerary_GetMissingInfoQuestions(id)
       .then(dto => this.vmMappingService.mapDtoQuestions_to_VM(dto))
-  }  
+  }
+
+  submitMissingInfo(info: MissingInfoRFM): Promise<void> {
+    return Promise.reject('Not implemented!');
+  }
 }

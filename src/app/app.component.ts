@@ -1,8 +1,13 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { iVmService, IVmService } from 'core/iVM/i-vm-service';
-import { MissingInfoVM } from 'core/models/missing-info-vm';
-import { environment } from 'environments/environment';
+import { Component, Inject, OnInit } from '@angular/core';
+
+import { GenericReactiveForm } from '@hgb/core';
+
+import { IVmService, iVmService } from 'core/iVM/i-vm-service';
+import { MissingInfoRFM, MissingInfoVM } from 'core/models/missing-info-vm';
 import { FeLogoType } from 'core/models/ui-models';
+
+import { environment } from 'environments/environment';
+
 
 @Component({
   selector: 'hgb-root',
@@ -15,6 +20,8 @@ export class AppComponent implements OnInit {
   readonly FeLogoType = FeLogoType;
   
   vmMissingInfo: MissingInfoVM;
+  grform: GenericReactiveForm<MissingInfoRFM>;
+  isSubmitDone: boolean = false;
 
   constructor(
     @Inject(iVmService)
@@ -33,7 +40,20 @@ export class AppComponent implements OnInit {
     });
   }
 
+  formModified(grform: GenericReactiveForm<MissingInfoRFM>) {
+    this.grform = grform;
+  }
+
   submit() {
-    console.log(`TODO: submit`);
+    if (!this.grform)
+      return;
+    if (!this.grform.formGroup.valid) {
+      this.grform.validateAllFormFields();
+      return;
+    }
+    this.vmService.submitMissingInfo(this.grform.getValue()).then(() => {
+      this.isSubmitDone = true;
+    });
   }
 }
+

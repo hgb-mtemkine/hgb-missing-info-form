@@ -1,30 +1,43 @@
-<div class="category" *ngFor="let cat of vm.categories">
-  <div class="cat-header">
-    <img [src]="cat.type | imageSrcNodeType" class="node-icon">
-    <span>{{ cat.text }}</span>
+<div class="form-root" [formGroup]="grform.formGroup">
+  <div class="category" *ngFor="let cat of vm.categories; let iCat = index;" formArrayName="categories">
+    <div class="cat-header">
+      <img [src]="cat.type | imageSrcNodeType" class="node-icon">
+      <span>{{ cat.text }}</span>
+    </div>
+  
+    <div class="question" *ngFor="let qqq of cat.questions" [formGroupName]="iCat">
+      <ng-container *ngIf="qqq.controlType == ControlType.Text">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="{{ qqq.text }}" [formControlName]="qqq.formControlName">
+          <mat-error *ngIf="rfaCategories.controls[iCat].controls[qqq.formControlName].invalid">
+            {{ rfaCategories.controls[iCat].controls[qqq.formControlName].errors | hgbValidationFirstError:qqq.text }}
+          </mat-error>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="qqq.controlType == ControlType.Date">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="{{ qqq.text }}" type="date" [formControlName]="qqq.formControlName">
+          <mat-error *ngIf="rfaCategories.controls[iCat].controls[qqq.formControlName].invalid">
+            {{ rfaCategories.controls[iCat].controls[qqq.formControlName].errors | hgbValidationFirstError:qqq.text }}
+          </mat-error>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="qqq.controlType == ControlType.Time">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="{{ qqq.text }}" type="time" [formControlName]="qqq.formControlName">
+          <mat-error *ngIf="rfaCategories.controls[iCat].controls[qqq.formControlName].invalid">
+            {{ rfaCategories.controls[iCat].controls[qqq.formControlName].errors | hgbValidationFirstError:qqq.text }}
+          </mat-error>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="qqq.controlType == ControlType.Checkbox">
+        <mat-checkbox labelPosition="after" [formControlName]="qqq.formControlName">{{ qqq.text }}</mat-checkbox>
+      </ng-container>
+      <!-- <pre>{{ qqq | json }}</pre> -->
+    </div>
+  
+    <!-- <pre>{{ cat | json }}</pre> -->
   </div>
-
-  <div class="question" *ngFor="let qqq of cat.questions">
-    <ng-container *ngIf="qqq.controlType == ControlType.Text">
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="{{ qqq.text }}">
-      </mat-form-field>
-    </ng-container>
-    <ng-container *ngIf="qqq.controlType == ControlType.Date">
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="{{ qqq.text }}" type="date">
-      </mat-form-field>
-    </ng-container>
-    <ng-container *ngIf="qqq.controlType == ControlType.Time">
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="{{ qqq.text }}" type="time">
-      </mat-form-field>
-    </ng-container>
-    <ng-container *ngIf="qqq.controlType == ControlType.Checkbox">
-      <mat-checkbox labelPosition="after">{{ qqq.text }}</mat-checkbox>
-    </ng-container>
-    <!-- <pre>{{ qqq | json }}</pre> -->
-  </div>
-
-  <!-- <pre>{{ cat | json }}</pre> -->
 </div>
+
+<!-- <pre>{{ grform.formGroup.value | json }}</pre> -->

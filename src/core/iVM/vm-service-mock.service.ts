@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { FakeDataService } from '@hgb/core';
 
 import * as GTARest from 'core/gen/gtarest';
-import { MissingInfoVM } from 'core/models/missing-info-vm';
+import { MissingInfoVM, MissingInfoRFM } from 'core/models/missing-info-vm';
 
 import { IVmService } from './i-vm-service';
 import { VmMappingService } from './vm-mapping.service';
@@ -22,5 +22,9 @@ export class VmService_Mock implements IVmService {
       .resolveWithJsonFile_array(GTARest.AgentDeskMissingInfoRequest, 'assets/mock-json/sample-missing-info-dto.json')
       .then(dto => this.vmMappingService.mapDtoQuestions_to_VM(dto))
       .then(vm => this.fakeDataService.resolveWith(vm, 500));
+  }
+
+  submitMissingInfo(info: MissingInfoRFM): Promise<void> {
+    return this.fakeDataService.resolveWith(null, 400);
   }
 }

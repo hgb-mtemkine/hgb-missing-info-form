@@ -18,6 +18,7 @@ export class MissingInfoCategoryVM {
 
 export class MissingInfoQuestionVM {
   text: string;
+  formControlName: keyof MissingInfoCategoryRFM;
   controlType: QuestionFormControlType;
 }
 
@@ -25,4 +26,17 @@ export class MissingInfoQuestionVM {
 
 export class MissingInfoVM {
   categories: MissingInfoCategoryVM[];
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------------
+
+export class MissingInfoRFM {
+  categories: MissingInfoCategoryRFM[];
+}
+
+export class MissingInfoCategoryRFM {
+  destination: string;
+  date: string;
+  time: string;
+  verifyHotel: boolean;
 }

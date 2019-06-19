@@ -1,0 +1,198 @@
+// TODO: qwewqwew: move Din Pro font to another less file
+
+@import "~@hgb/core/less/hgb-palette.less";
+@import "~@hgb/core/less/mixins.less";
+
+
+// TODO: 219ddde6: din pro font does not look good
+// body {
+//   font-family: @hgbFont-normal;
+// }
+
+//------------------------------------- layout utils ------------------------------------------------------------------------------------------------
+
+.row-gutters-5px {
+  .bs-row-gutters(5px);
+}
+.row-gutters-10px {
+  .bs-row-gutters(10px);
+}
+.row-gutters-15px {
+  .bs-row-gutters(15px);
+}
+.row-gutters-20px {
+  .bs-row-gutters(20px);
+}
+
+// FROM https://codepen.io/miktemk/pen/QayWGL
+.flex-group {
+  display: flex;
+  width: 100%;
+  .main-content {
+    width: 100%;
+    overflow: hidden;
+  }
+  .flex-content-vcenter {
+    margin: auto 0;
+  }
+  .flex-content-hcenter {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+//------------------------------------- Hgb common components ------------------------------------------------------------------------------------------------
+
+.hgb-wire-btn {
+  font-family: @hgbFont-normal;
+  font-size: 16px;
+
+  &.white {
+    border: solid 1px white;
+    color: white;
+
+    /deep/ .mat-button-ripple .mat-ripple-element {
+      background-color: fade(white, 20%);
+    }
+  }
+  &.red, &.red-select {
+    border: solid 1px @hello-red2;
+    color: @hello-red2;
+  }
+  &.red-light {
+    border: solid 1px @hello-light-red;
+    color: @hello-light-red;
+  }
+  &.blue {
+    border: solid 1px @hello-blue2;
+    color: @hello-blue2;
+  }
+  &.grablue {
+    border: solid 1px @hello-border-grey;
+    color: @hello-blue2;
+  }
+  &.gray {
+    border: solid 1px @hello-dark-grey;
+    color: @hello-dark-grey;
+  }
+
+  &.darky {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  &[hidden] {
+    display: none;
+  }
+
+  &:disabled {
+    border-color: @hello-border-grey;
+  }
+}
+
+.hgb-filled-btn {
+  font-family: @hgbFont-normal;
+  font-size: 16px;
+
+  &.red, &.red-select {
+    border: solid 1px @hello-red2;
+    background-color: @hello-red2;
+    color: white;
+  }
+  &.blue {
+    border: solid 1px @hello-blue2;
+    background-color: @hello-blue2;
+    color: white;
+  }
+}
+
+.hgb-dialog-backdrop {
+  background-color: #00000066;
+}
+
+//------------------------------------- Material style overrides/extensions ------------------------------------------------------------------------------------------------
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 10px;
+
+  .mat-form-field-infix {
+    padding: .4375em 0 0 !important; // NOTE: make bottom 0
+    width: initial; // NOTE: override 180px default
+
+    .mat-input-element, .mat-select {
+      height: 30px;
+      //background-color: white; // TODO: DISCUSSION - do we have to make this white??
+
+      // CSS TIP: + means "element immediately after", we want to dim the span>label immediately after input[disabled]
+      &[readonly] {
+        opacity: 0.5;
+        & + .mat-form-field-placeholder-wrapper .mat-form-field-placeholder {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+  .mat-form-field-suffix {
+    .mat-icon {
+      color: fade(@hello-blue2, 50%);
+    }
+
+    button.mat-button {
+      min-width: 0;
+      min-height: 0;
+      padding: 0;
+    }
+
+    // TODO: adufasn4: finish this mixin
+    //.hgb-material-spinner-size();
+
+  }
+
+  &.skinny {
+    .mat-form-field-infix {
+      border-top-width: 2px;
+      padding: 0 !important;
+    }
+
+    .mat-form-field-suffix {
+      top: 0 !important;
+    }
+
+    .mat-form-field-outline {
+      //color: rgba(0, 0, 0, 0); // NOTE: removes outline, but looks out of place
+      .mat-form-field-outline-start, .mat-form-field-outline-end {
+        border-radius: 0;
+      }
+    }
+  }
+
+  &.quadrato {
+    .mat-form-field-outline {
+      //color: rgba(0, 0, 0, 0); // NOTE: removes outline, but looks out of place
+      .mat-form-field-outline-start, .mat-form-field-outline-end {
+        border-radius: 0;
+      }
+    }
+  }
+
+  &.white-bg {
+    .mat-form-field-wrapper {
+      background-color: white;
+    }
+  }
+
+
+  // .mat-form-field-placeholder {
+  //   color: @hello-blue2;
+  // }
+  // .mat-form-field-ripple {
+  //   background-color: @hello-blue2;
+  // }
+
+  &.no-bottom-padding {
+    margin-bottom: 0;
+    .mat-form-field-wrapper {
+      padding-bottom: 0;
+    }
+  }
+}
