@@ -47,6 +47,7 @@ export class AppComponent implements OnInit {
   submit() {
     if (!this.grform)
       return;
+    // debugger;
     if (!this.grform.formGroup.valid) {
       this.grform.validateAllFormFields();
       return;
