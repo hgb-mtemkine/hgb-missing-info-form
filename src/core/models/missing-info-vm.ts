@@ -27,6 +27,7 @@ export class MissingInfoQuestionVM {
 export class MissingInfoVM {
   itineraryId: string;
   categories: MissingInfoCategoryVM[];
+  errorOccurred: string;
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------

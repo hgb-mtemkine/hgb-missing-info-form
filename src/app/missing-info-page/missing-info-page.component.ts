@@ -6,6 +6,7 @@ import { MissingInfoVM, MissingInfoRFM } from 'core/models/missing-info-vm';
 import { environment } from 'environments/environment';
 import { FeLogoType } from 'core/models/ui-models';
 import { GenericReactiveForm } from '@hgb/core';
+import { ErrorVM } from 'core/models/error-vm';
 
 @Component({
   selector: 'hgb-missing-info-page',
@@ -17,6 +18,7 @@ export class MissingInfoPageComponent implements OnInit {
   readonly ENV = environment;
   readonly FeLogoType = FeLogoType;
   
+  vmError: ErrorVM;
   vmMissingInfo: MissingInfoVM;
   grform: GenericReactiveForm<MissingInfoRFM>;
   isSubmitDone: boolean = false;
@@ -29,7 +31,10 @@ export class MissingInfoPageComponent implements OnInit {
 
   ngOnInit() {
     let data = <AppResolveData>this.route.snapshot.data;
-    this.vmMissingInfo = data.missingInfoVM;
+    if (data.missingInfoVM.errorTitle)
+      this.vmError = data.missingInfoVM as ErrorVM;
+    else
+      this.vmMissingInfo = data.missingInfoVM as MissingInfoVM;
   }
 
   formModified(grform: GenericReactiveForm<MissingInfoRFM>) {

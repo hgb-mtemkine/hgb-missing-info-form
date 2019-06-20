@@ -9,7 +9,7 @@ export const environment = {
   // apiUrl: "http://api1uat.hellogbye.com/uat_desk/Rest",
   //apiUrl: "http://apione.amexgbt.hellogbye.com/api/rest",
   apiUrl: "http://api.development.hellogbye.com/dev/Rest",
-  useMock: 1,
+  useMock: 0,
   logo: FeLogoType.HelloGbye,
 };
 

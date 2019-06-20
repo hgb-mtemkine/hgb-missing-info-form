@@ -1,14 +1,18 @@
-<div class="hello-page" *ngIf="vmMissingInfo">
+<div class="hello-page">
   <div class="content-container">
-    <div class="hello-content" *ngIf="!isSubmitDone">
+    <div class="hello-content" *ngIf="vmMissingInfo && !isSubmitDone">
       <h5>We have some questions pertaining to your itinerary.</h5>
       <hgb-missing-info-form [vm]="vmMissingInfo" (formChangedHereIsTheWholeForm)="formModified($event)"></hgb-missing-info-form>
     </div>
-    <div class="hello-content" *ngIf="isSubmitDone">
+    <div class="hello-content" *ngIf="vmMissingInfo && isSubmitDone">
       <h4>Thank you! Your request has been submitted.</h4>
     </div>
+    <div class="hello-content error" *ngIf="vmError">
+      <h4>{{ vmError.errorTitle }}</h4>
+      <p *ngIf="vmError.errorDetails">{{ vmError.errorDetails }}</p>
+    </div>
   </div>
-  <footer>
+  <footer *ngIf="vmMissingInfo">
     <ng-container *ngIf="ENV.logo != FeLogoType.None">
       <img class="logo" src="assets/images/hellogbye-logo-blue.svg" height="35" *ngIf="ENV.logo == FeLogoType.HelloGbye"/>
       <img class="logo" src="assets/images/gbt-logo.svg" height="30" *ngIf="ENV.logo == FeLogoType.AmexGbt"/>
