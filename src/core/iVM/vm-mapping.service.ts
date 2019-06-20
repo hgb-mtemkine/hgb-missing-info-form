@@ -13,8 +13,9 @@ export class VmMappingService {
   constructor(
   ) { }
 
-  mapDtoQuestions_to_VM(dto: GTARest.AgentDeskMissingInfoRequest[]): MissingInfoVM {
+  mapDtoQuestions_to_VM(id: string, dto: GTARest.AgentDeskMissingInfoRequest[]): MissingInfoVM {
     return <MissingInfoVM> {
+      itineraryId: id,
       categories: _.map(dto, dtoCat => <MissingInfoCategoryVM> {
         type: dtoCat.nodetype,
         text: dtoCat.question,

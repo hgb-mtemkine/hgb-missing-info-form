@@ -19,14 +19,14 @@ export class VmService_Rest implements IVmService {
   loadQuestions(id: string): Promise<MissingInfoVM> {
     return this.gtaRest
       .Itinerary_GetMissingInfoQuestions(id)
-      .then(dto => this.vmMappingService.mapDtoQuestions_to_VM(dto))
+      .then(dto => this.vmMappingService.mapDtoQuestions_to_VM(id, dto))
   }
 
   submitMissingInfo(infoRFM: MissingInfoRFM, vmMissingInfo: MissingInfoVM): Promise<void> {
     let answerArray = this.vmMappingService.mapMissingInfoRFM_to_DtoArray(infoRFM, vmMissingInfo);
     return this.gtaRest
       .Itinerary_AgentDeskWebStatic(<GTARest.AgentDeskWebStaticRequest> {
-        itineraryid: 'TODO',
+        itineraryid: vmMissingInfo.itineraryId,
         answer: answerArray,
         query: ''
       })

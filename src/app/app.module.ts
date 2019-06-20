@@ -10,15 +10,21 @@ import { VmServiceModule } from 'core/iVM/-vm-service-module';
 
 import { environment } from 'environments/environment';
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ImageSrcNodeTypePipe, MissingInfoFormComponent } from './missing-info-form/missing-info-form.component';
+import { MissingInfoPageComponent } from './missing-info-page/missing-info-page.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 @NgModule({
   declarations: [
+    ImageSrcNodeTypePipe,
+    
     AppComponent,
     MissingInfoFormComponent,
-    ImageSrcNodeTypePipe
+    MissingInfoPageComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,6 +36,7 @@ import { ImageSrcNodeTypePipe, MissingInfoFormComponent } from './missing-info-f
 
     HgbCommonPipesModule,
     VmServiceModule.forRoot(environment.apiUrl),
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

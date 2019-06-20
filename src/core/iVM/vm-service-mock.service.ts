@@ -20,7 +20,7 @@ export class VmService_Mock implements IVmService {
   loadQuestions(id: string): Promise<MissingInfoVM> {
     return this.fakeDataService
       .resolveWithJsonFile_array(GTARest.AgentDeskMissingInfoRequest, 'assets/mock-json/sample-missing-info-dto.json')
-      .then(dto => this.vmMappingService.mapDtoQuestions_to_VM(dto))
+      .then(dto => this.vmMappingService.mapDtoQuestions_to_VM(id, dto))
       .then(vm => this.fakeDataService.resolveWith(vm, 500));
   }
 
