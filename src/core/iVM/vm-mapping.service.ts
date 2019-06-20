@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 
 import * as GTARest from 'core/gen/gtarest';
-import { MissingInfoVM, MissingInfoCategoryVM, MissingInfoQuestionVM, QuestionFormControlType, MissingInfoCategoryRFM } from 'core/models/missing-info-vm';
+import { MissingInfoVM, MissingInfoCategoryVM, MissingInfoQuestionVM, QuestionFormControlType, MissingInfoCategoryRFM, MissingInfoRFM } from 'core/models/missing-info-vm';
 import { nameof } from '@hgb/core';
 
 
@@ -64,4 +64,17 @@ export class VmMappingService {
     }
   }
 
+  mapMissingInfoRFM_to_DtoArray(infoRFM: MissingInfoRFM, vmMissingInfo: MissingInfoVM): string[] {
+    return Array.from<string>(this.mapMissingInfoRFM_FlatArrayIterator(infoRFM, vmMissingInfo));
+  }
+
+  private *mapMissingInfoRFM_FlatArrayIterator(infoRFM: MissingInfoRFM, vmMissingInfo: MissingInfoVM): Iterable<string> {
+    for (let iCat = 0; iCat < vmMissingInfo.categories.length; iCat++) {
+      const cat = vmMissingInfo.categories[iCat];
+      const catData = infoRFM.categories[iCat];
+      for (let qqq of cat.questions) {
+        yield '' + catData[qqq.formControlName];
+      }
+    }
+  }
 }

@@ -1374,6 +1374,7 @@ export class AgentDeskReport {
  * Source class: GTARESTServices.Web.Api.Models.AgentDesk.Request.AgentDeskWebStaticRequest
  */
 export class AgentDeskWebStaticRequest {
+  answer: string[];
   itineraryid: string;
   query: string;
 

@@ -24,7 +24,9 @@ export class VmService_Mock implements IVmService {
       .then(vm => this.fakeDataService.resolveWith(vm, 500));
   }
 
-  submitMissingInfo(info: MissingInfoRFM): Promise<void> {
+  submitMissingInfo(infoRFM: MissingInfoRFM, vmMissingInfo: MissingInfoVM): Promise<void> {
+    let answerArray = this.vmMappingService.mapMissingInfoRFM_to_DtoArray(infoRFM, vmMissingInfo);
+    console.log(`answerArray:`, answerArray);
     return this.fakeDataService.resolveWith(null, 400);
   }
 }

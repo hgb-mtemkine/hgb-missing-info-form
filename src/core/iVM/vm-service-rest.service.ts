@@ -22,7 +22,14 @@ export class VmService_Rest implements IVmService {
       .then(dto => this.vmMappingService.mapDtoQuestions_to_VM(dto))
   }
 
-  submitMissingInfo(info: MissingInfoRFM): Promise<void> {
-    return Promise.reject('Not implemented!');
+  submitMissingInfo(infoRFM: MissingInfoRFM, vmMissingInfo: MissingInfoVM): Promise<void> {
+    let answerArray = this.vmMappingService.mapMissingInfoRFM_to_DtoArray(infoRFM, vmMissingInfo);
+    return this.gtaRest
+      .Itinerary_AgentDeskWebStatic(<GTARest.AgentDeskWebStaticRequest> {
+        itineraryid: 'TODO',
+        answer: answerArray,
+        query: ''
+      })
+      .then(dtoWhoCares => {})
   }
 }

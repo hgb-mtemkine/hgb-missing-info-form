@@ -47,12 +47,11 @@ export class AppComponent implements OnInit {
   submit() {
     if (!this.grform)
       return;
-    // debugger;
-    if (!this.grform.formGroup.valid) {
-      this.grform.validateAllFormFields();
-      return;
-    }
-    this.vmService.submitMissingInfo(this.grform.getValue()).then(() => {
+    // if (!this.grform.formGroup.valid) {
+    //   this.grform.validateAllFormFields();
+    //   return;
+    // }
+    this.vmService.submitMissingInfo(this.grform.getValue(), this.vmMissingInfo).then(() => {
       this.isSubmitDone = true;
     });
   }
