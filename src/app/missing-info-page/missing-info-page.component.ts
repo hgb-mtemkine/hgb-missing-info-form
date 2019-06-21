@@ -44,12 +44,12 @@ export class MissingInfoPageComponent implements OnInit {
   submit() {
     if (!this.grform)
       return;
-    // if (!this.grform.formGroup.valid) {
-    //   this.grform.validateAllFormFields();
-    //   return;
-    // }
+    if (!this.grform.formGroup.valid) {
+      this.grform.validateAllFormFields();
+      return;
+    }
     this.vmService.submitMissingInfo(this.grform.getValue(), this.vmMissingInfo).then(() => {
-      this.isSubmitDone = true;
     });
+    this.isSubmitDone = true;
   }
 }
